@@ -1,15 +1,15 @@
 import {ref, computed} from 'vue'
 
-const state = ref({
+const store = ref({
   countries: [],
 })
 
 function setCountries(countries) {
-  state.value.countries = countries
+  store.value.countries = countries
 }
 export function useCountries() {
   return computed({
-    get: () => state.value.countries,
+    get: () => store.value.countries,
     set: (value) => setCountries(value),
   })
 }

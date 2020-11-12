@@ -1,7 +1,8 @@
 <template>
   <div>
-    <select v-model="activeFilter">
-      <option v-for="filter in filters" :key="filter.value" :value="filter">{{filter.text}}</option>
+    <label for="filter">Data displayed : </label>
+    <select v-model="activeFilter" id="filter">
+      <option v-for="filter in filters" :key="filter.name" :value="filter">{{filter.text}}</option>
     </select>
   </div>
 </template>

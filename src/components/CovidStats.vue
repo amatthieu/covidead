@@ -3,7 +3,7 @@
     <h2><time :datetime="`${date.toISOString().slice(0,10)}`">{{date.toLocaleDateString()}}</time>'s stats</h2>
     <Filter/>
     <transition-group name="countries" tag="ol">
-      <li v-for="country in countries" :key="country">
+      <li v-for="country in countries" :key="country.Country">
         <CovidBar :country="country"/>
       </li>
     </transition-group>
@@ -35,7 +35,9 @@ export default {
     fetchData()
 
     const orderedCountries = computed(
-      () => countries.value.sort((c1, c2) => c2[filter.value.value] - c1[filter.value.value])
+      () => countries.value.sort(
+        (c1, c2) => c2[filter.value.name] - c1[filter.value.name]
+      ).filter((country, index) => index < 10)
     )
 
     return {
@@ -60,5 +62,8 @@ export default {
 
 li {
   list-style: none;
+}
+ol {
+  padding-inline-start: unset;
 }
 </style>

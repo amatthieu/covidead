@@ -23,13 +23,13 @@ export function fetchData() {
       const words = filter.split(/([A-Z])/)
       return {
         text: `${words[1]}${words[2]} ${words[3]}${words[4]}`,
-        value: filter,
+        name: filter,
       }
     })
     filters.value = filters.value.map((filter) => {
       return {
         ...filter,
-        max: Math.max(...data.Countries.map((country) => country[filter.value]))
+        max: Math.max(...data.Countries.map((country) => country[filter.name]))
       }
     })
     activeFilter.value = filters.value[0]

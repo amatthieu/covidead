@@ -1,8 +1,8 @@
 import {ref, computed} from 'vue'
 
-const state = ref({
+const store = ref({
   activeFilter: {
-    value: '',
+    name: '',
     text: '',
     max: 0,
   },
@@ -10,21 +10,21 @@ const state = ref({
 })
 
 function setActiveFilter(stat) {
-  state.value.activeFilter = stat
+  store.value.activeFilter = stat
 }
 export function useActiveFilter() {
   return computed({ 
-    get: () => state.value.activeFilter, 
+    get: () => store.value.activeFilter, 
     set: (value) => setActiveFilter(value),
   })
 }
 
 function setFilters(filters) {
-  state.value.filters = filters
+  store.value.filters = filters
 }
 export function useFilters() {
   return computed({ 
-    get: () => state.value.filters, 
+    get: () => store.value.filters, 
     set: (value) => setFilters(value),
   })
 }

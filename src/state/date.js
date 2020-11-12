@@ -1,15 +1,15 @@
 import {ref, computed} from 'vue'
 
-const state = ref({
+const store = ref({
   date: new Date(),
 })
 
 function setDate(date) {
-  state.value.date = date
+  store.value.date = date
 }
 export function useDate() {
   return computed({
-    get: () => state.value.date,
+    get: () => store.value.date,
     set: (value) => setDate(value),
   })
 }

@@ -7,6 +7,7 @@
 
 <script>
 import {computed} from 'vue'
+import {useActiveFilter} from '@/state/filter.js'
 
 export default {
     name: 'CovidBar',
@@ -15,9 +16,10 @@ export default {
       totalConfirmed: Number,
     },
     setup(props) {
+      const filter = useActiveFilter()
       const flagUrl = computed(() => `https://www.countryflags.io/${props.country.CountryCode}/flat/48.png`)
       const style = computed(() => ({
-        width: `${props.country.percentageOfMax * 100}%`,
+        width: `${(props.country[filter.value.value]/filter.value.max) * 100}%`,
         'background-color': `#${props.country.color}`,
       }))
 

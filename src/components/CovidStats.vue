@@ -1,46 +1,42 @@
 <template>
   <div class="stats">
     <h2><time :datetime="`${date.toISOString().slice(0,10)}`">{{date.toLocaleDateString()}}</time>'s stats</h2>
-    <covid-bar v-for="country in countries" :key="country" :country="country"/>
+    <Filter/>
+    <CovidBar v-for="country in countries" :key="country" :country="country"/>
   </div>
 </template>
 
 <script>
-import {ref, computed} from 'vue'
-import axios from "axios"
-import CovidBar from "./CovidBar.vue"
+import {computed} from 'vue'
+import CovidBar from '@/components/CovidBar'
+import Filter from '@/components/Filter'
 
-function generateColor() {
-  let color;
-  do {
-    color = ('00000'+(Math.random()*(1<<24)|0).toString(16)).slice(-6)
-  } while(color === 'FFFFFF')
-  return color
-}
+import {useActiveFilter} from '@/state/filter'
+import {useCountries} from '@/state/countries'
+import {useDate} from '@/state/date'
+
+import {fetchData} from '@/init'
 
 export default {
   name: "CovidStats",
-  components: {CovidBar},
+  components: {
+    CovidBar,
+    Filter,
+  },
   setup() {
-    const countries = ref([])
-    const maxConfirmed = ref(0)
-    const date = ref(new Date())
+    const countries = useCountries()
+    const date = useDate()
+    const filter = useActiveFilter()
 
-    const orderedCountries = computed(() => countries.value.sort((c1, c2) => c2.NewConfirmed - c1.NewConfirmed))
+    fetchData()
 
-    axios.get(`https://api.covid19api.com/summary`).then(({data}) => {
-      date.value = new Date(data.Date)
-      maxConfirmed.value = Math.max(...data.Countries.map((country) => country.NewConfirmed))
-      countries.value = data.Countries.map((country) => {
-        country.percentageOfMax = country.NewConfirmed / maxConfirmed.value
-        country.color = generateColor()
-        return country
-      })
-    })
+    const orderedCountries = computed(
+      () => countries.value.sort((c1, c2) => c2[filter.value.value] - c1[filter.value.value])
+    )
 
     return {
       countries: orderedCountries,
-      date
+      date,
     }
   }
 }

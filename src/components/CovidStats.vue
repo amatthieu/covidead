@@ -2,7 +2,11 @@
   <div class="stats">
     <h2><time :datetime="`${date.toISOString().slice(0,10)}`">{{date.toLocaleDateString()}}</time>'s stats</h2>
     <Filter/>
-    <CovidBar v-for="country in countries" :key="country" :country="country"/>
+    <transition-group name="countries" tag="ol">
+      <li v-for="country in countries" :key="country">
+        <CovidBar :country="country"/>
+      </li>
+    </transition-group>
   </div>
 </template>
 
@@ -48,5 +52,13 @@ export default {
   background-color: rgb(240, 240, 240);
   padding: 20px;
   border-radius: 20px;
+}
+
+.countries-move {
+  transition: transform 0.8s ease;
+}
+
+li {
+  list-style: none;
 }
 </style>

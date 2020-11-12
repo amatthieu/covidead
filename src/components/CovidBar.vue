@@ -42,5 +42,6 @@ export default {
   height: 32px;
   border-radius: 15px;
   box-shadow: 1px 2px 2px #2c3e50;
+  transition: width 0.8s ease;
 }
 </style>

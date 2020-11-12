@@ -37,7 +37,7 @@ export default {
     const orderedCountries = computed(
       () => countries.value.sort(
         (c1, c2) => c2[filter.value.name] - c1[filter.value.name]
-      ).filter((country, index) => index < 10)
+      ).filter((country, index) => index < 20)
     )
 
     return {

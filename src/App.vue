@@ -1,19 +1,30 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="covidead">
+    <h1>Covidead</h1>
+    <p>Data fetched from <a href="https://covid19api.com/" target="_blank">covid19api</a>.</p>
+    <CovidStats />
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import CovidStats from './components/CovidStats.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    CovidStats
   }
 }
 </script>
 
+<style scoped>
+.covidead {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  min-width: 100%;
+}
+</style>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -21,6 +32,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 40px;
 }
 </style>

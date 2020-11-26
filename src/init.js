@@ -10,6 +10,29 @@ function generateColor() {
   } while(color === 'FFFFFF')
   return color
 }
+function extractDate(data) {
+  return new Date(data.Date)
+}
+function extractFilters(data) {
+  return Object.keys(data.Global).map((filter) => {
+    const words = filter.split(/([A-Z])/)
+    return {
+      text: `${words[1]}${words[2]} ${words[3]}${words[4]}`,
+      name: filter,
+    }
+  }).map((filter) => {
+    return {
+      ...filter,
+      max: Math.max(...data.Countries.map((country) => country[filter.name]))
+    }
+  })
+}
+function extractCountries(data) {
+  return data.Countries.map((country) => {
+    country.color = generateColor()
+    return country
+  })
+}
 
 export function fetchData() {
   const date = useDate()
@@ -18,25 +41,9 @@ export function fetchData() {
   const countries = useCountries()
 
   axios.get(`https://api.covid19api.com/summary`).then(({data}) => {
-    date.value = new Date(data.Date)
-    filters.value = Object.keys(data.Global).map((filter) => {
-      const words = filter.split(/([A-Z])/)
-      return {
-        text: `${words[1]}${words[2]} ${words[3]}${words[4]}`,
-        name: filter,
-      }
-    })
-    filters.value = filters.value.map((filter) => {
-      return {
-        ...filter,
-        max: Math.max(...data.Countries.map((country) => country[filter.name]))
-      }
-    })
+    date.value = extractDate(date)
+    filters.value = extractFilters(data)
+    countries.value = extractCountries(data)
     activeFilter.value = filters.value[0]
-
-    countries.value = data.Countries.map((country) => {
-      country.color = generateColor()
-      return country
-    })
   })
 }

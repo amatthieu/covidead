@@ -11,7 +11,6 @@ function generateColor() {
   return color
 }
 function extractDate(data) {
-  console.log(data)
   return new Date(data.Date)
 }
 function extractFilters(data) {

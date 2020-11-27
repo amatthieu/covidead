@@ -11,6 +11,7 @@ function generateColor() {
   return color
 }
 function extractDate(data) {
+  console.log(data)
   return new Date(data.Date)
 }
 function extractFilters(data) {
@@ -41,7 +42,7 @@ export function fetchData() {
   const countries = useCountries()
 
   axios.get(`https://api.covid19api.com/summary`).then(({data}) => {
-    date.value = extractDate(date)
+    date.value = extractDate(data)
     filters.value = extractFilters(data)
     countries.value = extractCountries(data)
     activeFilter.value = filters.value[0]

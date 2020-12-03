@@ -13,7 +13,7 @@ function setActiveFilter(stat) {
   store.value.activeFilter = stat
 }
 export function useActiveFilter() {
-  return computed({ 
+  return computed({
     get: () => store.value.activeFilter, 
     set: (value) => setActiveFilter(value),
   })

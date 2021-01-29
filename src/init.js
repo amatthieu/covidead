@@ -1,7 +1,4 @@
-import axios from 'axios'
-import {useDate} from '@/state/date'
-import {useFilters, useActiveFilter} from '@/state/filter'
-import {useCountries} from '@/state/countries'
+import {useFilters, useActiveFilter} from "./store/filter"
 
 function generateColor() {
   let color;
@@ -35,15 +32,11 @@ function extractCountries(data) {
 }
 
 export function fetchData() {
-  const date = useDate()
-  const filters = useFilters()
-  const activeFilter = useActiveFilter()
-  const countries = useCountries()
+  const [filters, setFilters] = useFilters()
+  const [activeFilter, setActiveFilter] = useActiveFilter()
 
   axios.get(`https://api.covid19api.com/summary`).then(({data}) => {
-    date.value = extractDate(data)
-    filters.value = extractFilters(data)
-    countries.value = extractCountries(data)
-    activeFilter.value = filters.value[0]
+    setFilters(extractFilters(data))
+    setActiveFilter(filters[0])
   })
 }
